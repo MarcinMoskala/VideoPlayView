@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="VideoPlayView">
+        <attr name="videoUrl" format="string" />
+        <attr name="playButton" format="reference" />
+        <attr name="loadingButton" format="reference" />
+        <attr name="loop" format="boolean" />
+        <attr name="autoplay" format="boolean" />
+    </declare-styleable>
+</resources>

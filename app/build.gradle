@@ -1,0 +1,40 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
+    defaultConfig {
+        applicationId "com.marcinmoskala.videoplayview.sample"
+        minSdkVersion 16
+        targetSdkVersion 26
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    buildToolsVersion '26.0.2'
+}
+
+dependencies {
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    implementation 'com.android.support:design:26.1.0'
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile project(':lib')
+    compile 'com.android.support:appcompat-v7:26.1.0'
+    compile 'com.squareup.picasso:picasso:2.5.2'
+}
+
+repositories {
+    maven { url 'https://jitpack.io' }
+}
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
