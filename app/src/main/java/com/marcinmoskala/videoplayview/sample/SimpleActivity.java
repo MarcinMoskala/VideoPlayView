@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ScrollView;
 
+import com.bumptech.glide.Glide;
 import com.marcinmoskala.videoplayview.R;
 import com.marcinmoskala.videoplayview.VideoPlayView;
 import com.squareup.picasso.Picasso;
@@ -20,5 +21,10 @@ public class SimpleActivity extends AppCompatActivity {
         Picasso.with(this).load("http://i.imgur.com/DvpvklR.png").into(videoView.getImageView());
         ScrollView scroll = findViewById(R.id.scrollView);
         scroll.post(() -> scroll.fullScroll(View.FOCUS_UP));
+
+        VideoPlayView bigVideoView = findViewById(R.id.bigVideoView);
+        Glide.with(this)
+                .load(R.drawable.loader)
+                .into(bigVideoView.getLoadingView());
     }
 }

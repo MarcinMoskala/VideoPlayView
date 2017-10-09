@@ -26,7 +26,29 @@ When you use `loop` then video will forever looping:
     app:videoUrl="https://github.com/MarcinMoskala/VideoPlayView/raw/master/videos/cat1.mp4" />
 ```
 
-Videos can be paused by user. Preview image is shown then:
+You can set custom loader for the time when movie is downloaded from URL:
+
+![Img1](art/loading.gif)
+
+```xml
+<com.marcinmoskala.videoplayview.VideoPlayView
+    android:id="@+id/bigVideoView"
+    android:layout_width="match_parent"
+    android:layout_height="200dp"
+    android:background="@android:color/white"
+    app:videoUrl="https://github.com/MarcinMoskala/VideoPlayView/raw/master/videos/gdg.mp4" />
+```
+
+Static images can be set in xml, as `loadingButton`, but to display gif we need to use some library, like Glide:
+
+```java
+VideoPlayView bigVideoView = findViewById(R.id.bigVideoView);
+Glide.with(this)
+        .load(R.drawable.loader)
+        .into(bigVideoView.getLoadingView());
+```
+
+You can also show preview images. What is more, videos can be paused by user and preview image is shown then:
 
 ![Img1](art/pause.gif)
 
@@ -64,7 +86,7 @@ Just add in your module `build.gradle` following dependency:
 
 ```groovy
 dependencies {
-    compile 'com.github.marcinmoskala:VideoPlayerView:0.31'
+    compile 'com.github.marcinmoskala:VideoPlayerView:0.01'
 }
 ```
 

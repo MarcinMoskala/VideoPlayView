@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/scrollView"
     android:layout_width="match_parent"
-    android:background="@android:color/white"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -73,9 +73,9 @@
             app:videoUrl="https://github.com/MarcinMoskala/VideoPlayView/raw/master/videos/cat1.mp4" />
 
         <TextView
-            android:background="@android:color/white"
             android:layout_width="match_parent"
             android:layout_height="60dp"
+            android:background="@android:color/white"
             android:gravity="center_horizontal"
             android:text="..."
             android:textSize="30dp" />
@@ -89,11 +89,9 @@
             android:text="All videos are URLs" />
 
         <com.marcinmoskala.videoplayview.VideoPlayView
+            android:id="@+id/bigVideoView"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:background="@android:color/white"
-            app:image="@drawable/dfimg"
-            app:loop="true"
             app:videoUrl="https://github.com/MarcinMoskala/VideoPlayView/raw/master/videos/gdg.mp4" />
 
         <TextView
