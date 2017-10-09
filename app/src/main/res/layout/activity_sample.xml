@@ -1,38 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/scrollView"
     android:layout_width="match_parent"
+    android:background="@android:color/white"
     android:layout_height="match_parent">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <com.marcinmoskala.videoplayview.VideoPlayView
-            android:id="@+id/videoPlayerView"
+        <TextView
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            app:autoplay="true"
-            app:videoUrl="http://www.sample-videos.com/video/mp4/240/big_buck_bunny_240p_5mb.mp4" />
-
-        <com.marcinmoskala.videoplayview.VideoPlayView
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            app:autoplay="true"
-            app:videoUrl="http://www.sample-videos.com/video/mp4/240/big_buck_bunny_240p_5mb.mp4" />
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="Autoplay, no looping" />
 
         <com.marcinmoskala.videoplayview.VideoPlayView
             android:layout_width="match_parent"
             android:layout_height="200dp"
             app:autoplay="true"
-            app:videoUrl="http://techslides.com/demos/sample-videos/small.mp4" />
+            app:image="@drawable/cat"
+            app:videoUrl="https://github.com/MarcinMoskala/VideoPlayView/raw/master/videos/cat1.mp4" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="Autoplay, looping" />
 
         <com.marcinmoskala.videoplayview.VideoPlayView
             android:layout_width="match_parent"
             android:layout_height="200dp"
             app:autoplay="true"
-            app:videoUrl="https://thumbs.gfycat.com/MagnificentLimpingCowbird-mobile.mp4" />
+            app:image="@drawable/cat"
+            app:loop="true"
+            app:videoUrl="https://github.com/MarcinMoskala/VideoPlayView/raw/master/videos/cat1.mp4" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="No autoplay, no looping" />
+
+        <com.marcinmoskala.videoplayview.VideoPlayView
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="@android:color/white"
+            app:image="@drawable/cat"
+            app:videoUrl="https://github.com/MarcinMoskala/VideoPlayView/raw/master/videos/cat1.mp4" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="No autoplay, looping" />
+
+        <com.marcinmoskala.videoplayview.VideoPlayView
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="@android:color/white"
+            app:image="@drawable/cat"
+            app:loop="true"
+            app:videoUrl="https://github.com/MarcinMoskala/VideoPlayView/raw/master/videos/cat1.mp4" />
+
+        <TextView
+            android:background="@android:color/white"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:gravity="center_horizontal"
+            android:text="..."
+            android:textSize="30dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="All videos are URLs" />
+
+        <com.marcinmoskala.videoplayview.VideoPlayView
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="@android:color/white"
+            app:image="@drawable/dfimg"
+            app:loop="true"
+            app:videoUrl="https://github.com/MarcinMoskala/VideoPlayView/raw/master/videos/gdg.mp4" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="Image can be also placed using Picasso" />
+
+        <com.marcinmoskala.videoplayview.VideoPlayView
+            android:id="@+id/picassoVideoView"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="@android:color/white"
+            app:loop="true"
+            app:videoUrl="https://github.com/MarcinMoskala/VideoPlayView/raw/master/videos/cat1.mp4" />
 
     </LinearLayout>
 </ScrollView>

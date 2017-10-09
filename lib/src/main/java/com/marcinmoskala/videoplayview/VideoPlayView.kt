@@ -1,8 +1,10 @@
 package com.marcinmoskala.videoplayview
 
 import android.content.Context
+import android.graphics.Color
 import android.graphics.drawable.AnimationDrawable
 import android.net.Uri
+import android.os.Build
 import android.util.AttributeSet
 import android.util.Log
 import android.view.KeyEvent
@@ -34,12 +36,10 @@ class VideoPlayView @JvmOverloads constructor(
     }
 
     var state: State by observable(Initial as State) { _, prevState, state ->
-        Log.i("VideoPlayView", "Changed state from $prevState to $state")
         loadingView.visibility = if (state is Loading) View.VISIBLE else View.GONE
         playView.visibility = if (state is Ready) View.VISIBLE else View.GONE
         imageView.visibility = if (state is Playing) View.GONE else View.VISIBLE
         when {
-//            state1 is Playing && prevState is Paused -> videoView.resume()
             state is Playing -> videoView.start()
             state is Paused -> videoView.pause()
         }
@@ -49,7 +49,6 @@ class VideoPlayView @JvmOverloads constructor(
         require(!videoUrl.isNullOrBlank()) { "videoUrl is cannot be null or blank" }
         require(state is Initial) { "state must be Initial" }
         videoView.setVideoPath(videoUrl)
-        videoView.requestFocus()
         if (state is Initial) {
             state = Loading
         }
@@ -75,6 +74,7 @@ class VideoPlayView @JvmOverloads constructor(
             autoplay = attrSet.getBoolean(R.styleable.VideoPlayView_autoplay, false)
             attrSet.getDrawable(R.styleable.VideoPlayView_playButton)?.let(playView::setImageDrawable)
             attrSet.getDrawable(R.styleable.VideoPlayView_loadingButton)?.let(loadingView::setImageDrawable)
+            attrSet.getDrawable(R.styleable.VideoPlayView_image)?.let(imageView::setImageDrawable)
             attrSet.getText(R.styleable.VideoPlayView_videoUrl)?.toString()?.let { videoUrl = it }
         } finally {
             attrSet.recycle()
@@ -98,9 +98,9 @@ class VideoPlayView @JvmOverloads constructor(
         state = state
     }
 
-    internal fun <T : View> View.bindView(viewId: Int) = lazy { findViewById<T>(viewId) }
+    private fun <T : View> View.bindView(viewId: Int) = lazy { findViewById<T>(viewId) }
 
-    fun View.touchBasedOnClick(onClick: () -> Unit) {
+    private fun View.touchBasedOnClick(onClick: () -> Unit) {
         var actionDownTouch: MotionEvent? = null
         setOnTouchListener { v, e ->
             when (e.action) {
