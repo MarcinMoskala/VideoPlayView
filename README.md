@@ -16,7 +16,7 @@ Here is example flow:
 
 When you use `loop` then video will forever looping:
 
-![Img1](art/loop.png)
+![Img1](art/loop.gif)
 
 ```xml
 <com.marcinmoskala.videoplayview.VideoPlayView
@@ -28,7 +28,7 @@ When you use `loop` then video will forever looping:
 
 Videos can be paused by user. Preview image is shown then:
 
-![Img1](art/pause.png)
+![Img1](art/pause.gif)
 
 ```xml
 <com.marcinmoskala.videoplayview.VideoPlayView
