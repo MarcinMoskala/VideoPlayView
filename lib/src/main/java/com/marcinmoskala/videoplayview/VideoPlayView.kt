@@ -5,12 +5,17 @@ import android.graphics.drawable.AnimationDrawable
 import android.net.Uri
 import android.util.AttributeSet
 import android.util.Log
+import android.view.KeyEvent
+import android.view.KeyEvent.ACTION_DOWN
+import android.view.KeyEvent.ACTION_UP
+import android.view.MotionEvent
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.VideoView
 import com.marcinmoskala.videoplayview.VideoPlayView.State.*
+import java.lang.Math.*
 import kotlin.properties.Delegates.observable
 
 class VideoPlayView @JvmOverloads constructor(
@@ -75,8 +80,7 @@ class VideoPlayView @JvmOverloads constructor(
             attrSet.recycle()
         }
         addView(view)
-
-        videoView.setOnClickListener {
+        videoView.touchBasedOnClick {
             when (state) {
                 is Playing -> state = Paused
                 is Paused -> state = Playing
@@ -95,4 +99,23 @@ class VideoPlayView @JvmOverloads constructor(
     }
 
     internal fun <T : View> View.bindView(viewId: Int) = lazy { findViewById<T>(viewId) }
+
+    fun View.touchBasedOnClick(onClick: () -> Unit) {
+        var actionDownTouch: MotionEvent? = null
+        setOnTouchListener { v, e ->
+            when (e.action) {
+                ACTION_DOWN -> {
+                    actionDownTouch = e
+                }
+                ACTION_UP -> {
+                    actionDownTouch?.let { e2 ->
+                        if (abs(e.x - e2.x) + abs(e.y - e2.y) < 30) {
+                            onClick()
+                        }
+                    }
+                }
+            }
+            true
+        }
+    }
 }
