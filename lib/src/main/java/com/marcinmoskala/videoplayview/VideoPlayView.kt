@@ -1,23 +1,16 @@
 package com.marcinmoskala.videoplayview
 
 import android.content.Context
-import android.graphics.Color
-import android.graphics.drawable.AnimationDrawable
-import android.net.Uri
-import android.os.Build
 import android.util.AttributeSet
-import android.util.Log
-import android.view.KeyEvent
 import android.view.KeyEvent.ACTION_DOWN
 import android.view.KeyEvent.ACTION_UP
 import android.view.MotionEvent
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.VideoView
 import com.marcinmoskala.videoplayview.VideoPlayView.State.*
-import java.lang.Math.*
+import java.lang.Math.abs
 import kotlin.properties.Delegates.observable
 
 class VideoPlayView @JvmOverloads constructor(
@@ -53,6 +46,7 @@ class VideoPlayView @JvmOverloads constructor(
             state = Loading
         }
         videoView.setOnPreparedListener {
+            onVideoReadyListener?.invoke()
             state = if (autoplay) Playing else Ready
         }
     }
@@ -66,6 +60,9 @@ class VideoPlayView @JvmOverloads constructor(
     val imageView: ImageView by view.bindView(R.id.imageView)
     val playView: ImageView by view.bindView(R.id.playView)
     val loadingView: ImageView by view.bindView(R.id.loadingView)
+
+    var onVideoReadyListener: (()->Unit)? = null
+    var onVideoFinishedListener: (()->Unit)? = null
 
     init {
         val attrSet = context.theme.obtainStyledAttributes(attrs, R.styleable.VideoPlayView, defStyleAttr, defStyleAttr)
@@ -90,6 +87,7 @@ class VideoPlayView @JvmOverloads constructor(
             if (state is Paused || state is Ready) state = Playing
         }
         videoView.setOnCompletionListener {
+            onVideoFinishedListener?.invoke()
             state = if (looping) Playing else Ready
         }
         playView.setOnClickListener {
