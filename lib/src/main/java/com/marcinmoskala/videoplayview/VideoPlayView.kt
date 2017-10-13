@@ -52,17 +52,16 @@ class VideoPlayView @JvmOverloads constructor(
     }
 
     var looping: Boolean = false
-
     var autoplay: Boolean = false
+
+    var onVideoReadyListener: (()->Unit)? = null
+    var onVideoFinishedListener: (()->Unit)? = null
 
     private val view by lazy { View.inflate(context, R.layout.view_video_play, null) }
     private val videoView: VideoView by view.bindView(R.id.videoView)
     val imageView: ImageView by view.bindView(R.id.imageView)
     val playView: ImageView by view.bindView(R.id.playView)
     val loadingView: ImageView by view.bindView(R.id.loadingView)
-
-    var onVideoReadyListener: (()->Unit)? = null
-    var onVideoFinishedListener: (()->Unit)? = null
 
     init {
         val attrSet = context.theme.obtainStyledAttributes(attrs, R.styleable.VideoPlayView, defStyleAttr, defStyleAttr)
