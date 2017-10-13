@@ -4,17 +4,17 @@ Custom Android view with video player, loader and placeholder image.
 
 [![](https://jitpack.io/v/marcinmoskala/VideoPlayView.svg)](https://jitpack.io/#marcinmoskala/VideoPlayView)
 
-To stay current with news about library [![Twitter URL](https://img.shields.io/twitter/url/https/twitter.com/fold_left.svg?style=social&label=Follow%20%40marcinmoskala)](https://twitter.com/marcinmoskala?ref_src=twsrc%5Etfw)
+To stay up-to-date with news about the library [![Twitter URL](https://img.shields.io/twitter/url/https/twitter.com/fold_left.svg?style=social&label=Follow%20%40marcinmoskala)](https://twitter.com/marcinmoskala?ref_src=twsrc%5Etfw)
 
 ## Usage
 
-Here is example flow:
+Here is an example flow:
 
 ![Gif example](art/flow.gif)
 
-[Here](https://github.com/MarcinMoskala/VideoPlayView/blob/master/app/src/main/res/layout/activity_sample.xml) you can all view examples visible on gif.
+[Here](https://github.com/MarcinMoskala/VideoPlayView/blob/master/app/src/main/res/layout/activity_sample.xml) you can view all examples visible on gif.
 
-When you use `loop` then video will forever looping:
+When you use `loop` then video will be looping forever:
 
 ![Img1](art/loop.gif)
 
@@ -75,8 +75,8 @@ VideoPlayerView properties are:
 * `loadingButton` - reference to loader image.
 * `videoUrl` - video url.
 * `playButton` - max vale of progress (100 by default).
-* `loop` - if video should be replayed automatically when it finished (`false` by default).
-* `autoplay` - if video should be automatically played when it loaded (`false` by default).
+* `loop` - video will be replayed automatically when it is finished (`false` by default).
+* `autoplay` - video will be played automatically when it is loaded (`false` by default).
 
 ## Installation
 
