@@ -86,7 +86,7 @@ Just add in your module `build.gradle` following dependency:
 
 ```groovy
 dependencies {
-    compile 'com.github.marcinmoskala:VideoPlayView:0.0.1'
+    compile 'com.github.marcinmoskala:VideoPlayView:0.0.2'
 }
 ```
 
