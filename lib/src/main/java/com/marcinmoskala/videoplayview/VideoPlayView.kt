@@ -1,17 +1,16 @@
 package com.marcinmoskala.videoplayview
 
 import android.content.Context
+import android.os.Build
 import android.util.AttributeSet
-import android.view.KeyEvent.ACTION_DOWN
-import android.view.KeyEvent.ACTION_UP
-import android.view.MotionEvent
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.VideoView
 import com.marcinmoskala.videoplayview.VideoPlayView.State.*
-import java.lang.Math.abs
 import kotlin.properties.Delegates.observable
+
 
 class VideoPlayView @JvmOverloads constructor(
         context: Context,
@@ -30,11 +29,12 @@ class VideoPlayView @JvmOverloads constructor(
 
     var state: State by observable(Initial as State) { _, prevState, state ->
         loadingView.visibility = if (state is Loading) View.VISIBLE else View.GONE
-        playView.visibility = if (state is Ready) View.VISIBLE else View.GONE
+        playView.visibility = if (state is Ready || state is Paused) View.VISIBLE else View.GONE
         imageView.visibility = if (state is Playing) View.GONE else View.VISIBLE
-        when {
-            state is Playing -> videoView.start()
-            state is Paused -> videoView.pause()
+        when (state) {
+            is Playing -> videoView.start()
+            is Paused -> videoView.pause()
+            is Ready -> videoView.seekTo(0)
         }
     }
 
@@ -53,9 +53,10 @@ class VideoPlayView @JvmOverloads constructor(
 
     var looping: Boolean = false
     var autoplay: Boolean = false
+    var stopOnClick: Boolean = false
 
-    var onVideoReadyListener: (()->Unit)? = null
-    var onVideoFinishedListener: (()->Unit)? = null
+    var onVideoReadyListener: (() -> Unit)? = null
+    var onVideoFinishedListener: (() -> Unit)? = null
 
     private val view by lazy { View.inflate(context, R.layout.view_video_play, null) }
     private val videoView: VideoView by view.bindView(R.id.videoView)
@@ -68,18 +69,25 @@ class VideoPlayView @JvmOverloads constructor(
         try {
             looping = attrSet.getBoolean(R.styleable.VideoPlayView_loop, false)
             autoplay = attrSet.getBoolean(R.styleable.VideoPlayView_autoplay, false)
+            stopOnClick = attrSet.getBoolean(R.styleable.VideoPlayView_stopOnClick, false)
             attrSet.getDrawable(R.styleable.VideoPlayView_playButton)?.let(playView::setImageDrawable)
             attrSet.getDrawable(R.styleable.VideoPlayView_loadingButton)?.let(loadingView::setImageDrawable)
             attrSet.getDrawable(R.styleable.VideoPlayView_image)?.let(imageView::setImageDrawable)
             attrSet.getText(R.styleable.VideoPlayView_videoUrl)?.toString()?.let { videoUrl = it }
+            if(Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN) {
+                imageView.background = background
+            } else {
+                imageView.setBackgroundColor(getBackgroundColor())
+            }
         } finally {
             attrSet.recycle()
         }
         addView(view)
         videoView.touchBasedOnClick {
-            when (state) {
-                is Playing -> state = Paused
-                is Paused -> state = Playing
+            when {
+                state is Playing && !stopOnClick -> state = Paused
+                state is Playing && stopOnClick -> state = Ready
+                state is Paused -> state = Playing
             }
         }
         imageView.setOnClickListener {
@@ -93,26 +101,5 @@ class VideoPlayView @JvmOverloads constructor(
             state = Playing
         }
         state = state
-    }
-
-    private fun <T : View> View.bindView(viewId: Int) = lazy { findViewById<T>(viewId) }
-
-    private fun View.touchBasedOnClick(onClick: () -> Unit) {
-        var actionDownTouch: MotionEvent? = null
-        setOnTouchListener { v, e ->
-            when (e.action) {
-                ACTION_DOWN -> {
-                    actionDownTouch = e
-                }
-                ACTION_UP -> {
-                    actionDownTouch?.let { e2 ->
-                        if (abs(e.x - e2.x) + abs(e.y - e2.y) < 30) {
-                            onClick()
-                        }
-                    }
-                }
-            }
-            true
-        }
     }
 }
