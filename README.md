@@ -4,6 +4,7 @@ Custom Android view with video player, loader and placeholder image.
 
 [![](https://jitpack.io/v/marcinmoskala/VideoPlayView.svg)](https://jitpack.io/#marcinmoskala/VideoPlayView)
 [![Analytics](https://ga-beacon.appspot.com/UA-92159206-4/main-page?pixel)](https://github.com/MarcinMoskala/VideoPlayView)
+[![Analytics](https://ga-beacon.appspot.com/UA-92159206-7/main-page?pixel)](https://github.com/MarcinMoskala/VideoPlayView)
 
 
 To stay up-to-date with news about the library [![Twitter URL](https://img.shields.io/twitter/url/https/twitter.com/fold_left.svg?style=social&label=Follow%20%40marcinmoskala)](https://twitter.com/marcinmoskala?ref_src=twsrc%5Etfw)
