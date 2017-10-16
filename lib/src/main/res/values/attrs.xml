@@ -6,7 +6,8 @@
         <attr name="loadingButton" format="reference" />
         <attr name="image" format="reference" />
         <attr name="loop" format="boolean" />
-        <attr name="stopOnClick" format="boolean" />
+        <attr name="stopOnPause" format="boolean" />
+        <attr name="pauseOnInvisible" format="boolean" />
         <attr name="autoplay" format="boolean" />
     </declare-styleable>
 </resources>

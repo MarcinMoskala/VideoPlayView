@@ -6,11 +6,9 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.VideoView
 import com.marcinmoskala.videoplayview.VideoPlayView.State.*
 import kotlin.properties.Delegates.observable
-
 
 class VideoPlayView @JvmOverloads constructor(
         context: Context,
@@ -34,7 +32,12 @@ class VideoPlayView @JvmOverloads constructor(
         when (state) {
             is Playing -> videoView.start()
             is Paused -> videoView.pause()
-            is Ready -> videoView.seekTo(0)
+            is Ready -> {
+                if (videoView.isPlaying) {
+                    videoView.pause()
+                    videoView.seekTo(0)
+                }
+            }
         }
     }
 
@@ -51,9 +54,10 @@ class VideoPlayView @JvmOverloads constructor(
         }
     }
 
-    var looping: Boolean = false
-    var autoplay: Boolean = false
-    var stopOnClick: Boolean = false
+    var looping: Boolean
+    var autoplay: Boolean
+    var stopOnPause: Boolean
+    var pauseOnInvisible: Boolean
 
     var onVideoReadyListener: (() -> Unit)? = null
     var onVideoFinishedListener: (() -> Unit)? = null
@@ -69,12 +73,13 @@ class VideoPlayView @JvmOverloads constructor(
         try {
             looping = attrSet.getBoolean(R.styleable.VideoPlayView_loop, false)
             autoplay = attrSet.getBoolean(R.styleable.VideoPlayView_autoplay, false)
-            stopOnClick = attrSet.getBoolean(R.styleable.VideoPlayView_stopOnClick, false)
+            stopOnPause = attrSet.getBoolean(R.styleable.VideoPlayView_stopOnPause, false)
+            pauseOnInvisible = attrSet.getBoolean(R.styleable.VideoPlayView_pauseOnInvisible, false)
             attrSet.getDrawable(R.styleable.VideoPlayView_playButton)?.let(playView::setImageDrawable)
             attrSet.getDrawable(R.styleable.VideoPlayView_loadingButton)?.let(loadingView::setImageDrawable)
             attrSet.getDrawable(R.styleable.VideoPlayView_image)?.let(imageView::setImageDrawable)
             attrSet.getText(R.styleable.VideoPlayView_videoUrl)?.toString()?.let { videoUrl = it }
-            if(Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN) {
+            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN) {
                 imageView.background = background
             } else {
                 imageView.setBackgroundColor(getBackgroundColor())
@@ -84,22 +89,39 @@ class VideoPlayView @JvmOverloads constructor(
         }
         addView(view)
         videoView.touchBasedOnClick {
-            when {
-                state is Playing && !stopOnClick -> state = Paused
-                state is Playing && stopOnClick -> state = Ready
-                state is Paused -> state = Playing
-            }
+            pause()
         }
         imageView.setOnClickListener {
-            if (state is Paused || state is Ready) state = Playing
+            if (state is Paused || state is Ready) play()
         }
         videoView.setOnCompletionListener {
             onVideoFinishedListener?.invoke()
             state = if (looping) Playing else Ready
         }
         playView.setOnClickListener {
-            state = Playing
+            play()
         }
+        setUpOnNotDisplayedListener()
         state = state
+    }
+
+    private fun setUpOnNotDisplayedListener() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.CUPCAKE) {
+            viewTreeObserver.addOnScrollChangedListener {
+                if (pauseOnInvisible && state is Playing && !visibleOnScreen) pause()
+            }
+        }
+    }
+
+    fun play() {
+        state = Playing
+    }
+
+    fun pause() {
+        when {
+            state is Playing && !stopOnPause -> state = Paused
+            state is Playing && stopOnPause -> state = Ready
+            state is Paused -> state = Playing
+        }
     }
 }

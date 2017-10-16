@@ -49,3 +49,9 @@ internal fun View.getBackgroundColor(): Int {
     }
     return color
 }
+
+internal val View.visibleOnScreen: Boolean
+    get() {
+        val rect = Rect()
+        return getGlobalVisibleRect(rect) && rect.height() != 0 && rect.width() != 0
+    }

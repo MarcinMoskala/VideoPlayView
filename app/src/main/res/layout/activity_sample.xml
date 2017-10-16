@@ -24,7 +24,7 @@
             android:layout_height="200dp"
             android:background="#000"
             app:autoplay="true"
-            app:stopOnClick="true"
+            app:stopOnPause="true"
             app:image="@drawable/cat"
             app:videoUrl="https://github.com/MarcinMoskala/VideoPlayView/raw/master/videos/cat1.mp4" />
 
